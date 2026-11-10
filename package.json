@@ -1,0 +1,10 @@
+{
+  "name": "smart-pos-suite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local multi-business POS demo for restaurant, hospital, grocery and retail shop",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": { "node": ">=18" }
+}

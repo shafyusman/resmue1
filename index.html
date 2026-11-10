@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart POS | Business Management</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="onboarding" class="onboarding">
+  <div class="setup-card">
+    <div class="brand-mark">S</div><p class="eyebrow">SMART BUSINESS SUITE</p>
+    <h1>Set up your workspace</h1><p class="muted center">Choose your business type to load the right workspace.</p>
+    <div class="business-grid" id="businessChoices"></div>
+    <div class="setup-fields">
+      <label>Business name<input id="businessName" placeholder="e.g. City Mart" required></label>
+      <label>Owner / manager<input id="ownerName" placeholder="Your name"></label>
+      <label>Currency<select id="currency"><option>PKR</option><option>USD</option><option>GBP</option><option>AED</option></select></label>
+      <button class="btn primary full" id="startBtn">Create workspace <span>→</span></button>
+      <small class="muted">Local demo: information is stored in the project's data/db.json file.</small>
+    </div>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-brand"><div class="brand-mark small">S</div><div><b>Smart POS</b><small>Business Suite</small></div></div>
+    <div class="workspace"><span class="live-dot"></span><span id="workspaceName">My Business</span><small id="workspaceType">RETAIL</small></div>
+    <nav id="navigation"></nav>
+    <button class="nav-link exit" id="switchBusiness">↪ <span>Switch business</span></button>
+    <div class="side-foot">LOCAL DEVELOPMENT VERSION<br>v1.0.0</div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><button class="mobile-menu" id="mobileMenu">☰</button><div><h2 id="pageTitle">Overview</h2><p id="dateLabel"></p></div><div class="top-right"><span class="connection"><i></i> Local server</span><div class="user-avatar" id="userAvatar">A</div></div></header>
+    <div class="content">
+      <section class="page active" id="page-dashboard">
+        <div class="page-intro"><div><p class="eyebrow">OVERVIEW</p><h1>Good day<span id="greetingName"></span> 👋</h1><p class="muted">Here's what's happening in your business today.</p></div><button class="btn primary" data-go="pos">＋ New sale</button></div>
+        <div class="stat-grid">
+          <article class="stat"><div class="stat-label">Total revenue <span>↗</span></div><strong id="statRevenue">PKR 0</strong><small>Recorded sales</small></article>
+          <article class="stat"><div class="stat-label">Transactions <span>▤</span></div><strong id="statSales">0</strong><small>Completed orders</small></article>
+          <article class="stat"><div class="stat-label">Products / items <span>▦</span></div><strong id="statProducts">0</strong><small>In your catalogue</small></article>
+          <article class="stat"><div class="stat-label">Customers / patients <span>♙</span></div><strong id="statPeople">0</strong><small>Saved records</small></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="panel"><div class="panel-head"><div><h3>Recent transactions</h3><p>Latest activity across your workspace</p></div><button class="text-btn" data-go="sales">View all →</button></div><div class="table-scroll"><table><thead><tr><th>REFERENCE</th><th>DATE</th><th>DESCRIPTION</th><th>AMOUNT</th></tr></thead><tbody id="recentTable"></tbody></table></div></article>
+          <article class="panel"><div class="panel-head"><div><h3>Quick actions</h3><p>Common tasks</p></div></div><div class="quick-grid" id="quickActions"></div></article>
+        </div>
+        <article class="panel"><div class="panel-head"><div><h3>Stock watch</h3><p>Items that may need attention</p></div><button class="text-btn" data-go="inventory">Inventory →</button></div><div id="stockWatch" class="stock-watch"></div></article>
+      </section>
+
+      <section class="page" id="page-pos">
+        <div class="page-intro"><div><p class="eyebrow">CHECKOUT</p><h1>Point of sale</h1><p class="muted">Add items, review the order and complete payment.</p></div></div>
+        <div class="pos-layout"><article class="panel"><div class="toolbar"><input id="posSearch" placeholder="Search items or SKU…"><select id="posCategory"><option value="">All categories</option></select></div><div class="catalog-grid" id="catalog"></div></article>
+        <article class="panel cart-panel"><div class="panel-head"><div><h3>Current order</h3><p id="cartCount">0 items</p></div><button class="text-btn" id="clearCart">Clear</button></div><label class="form-label">Customer / visitor<input id="saleCustomer" placeholder="Walk-in customer"></label><div id="cartLines" class="cart-lines"><div class="empty-state">Your order is empty.</div></div><div class="totals"><div><span>Subtotal</span><b id="subtotal">PKR 0</b></div><div><span>Discount</span><input type="number" id="discount" min="0" value="0"></div><div class="grand"><span>Total</span><strong id="grandTotal">PKR 0</strong></div></div><label class="form-label">Payment method<select id="paymentMethod"><option>Cash</option><option>Card</option><option>Bank transfer</option><option>Digital wallet</option><option>Credit / due</option></select></label><button class="btn primary full" id="completeSale">Complete sale</button></article></div>
+      </section>
+
+      <section class="page" id="page-products">
+        <div class="page-intro"><div><p class="eyebrow">CATALOGUE</p><h1 id="productsHeading">Products & services</h1><p class="muted">Manage the items and services offered by your business.</p></div><button class="btn primary" id="addProduct">＋ Add item</button></div>
+        <article class="panel"><div class="toolbar"><input id="productSearch" placeholder="Search name or SKU…"><select id="productFilter"><option value="">All categories</option></select></div><div class="table-scroll"><table><thead><tr><th>ITEM</th><th>SKU</th><th>CATEGORY</th><th>SELLING PRICE</th><th>COST</th><th>STOCK</th><th></th></tr></thead><tbody id="productsTable"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-inventory">
+        <div class="page-intro"><div><p class="eyebrow">OPERATIONS</p><h1>Inventory</h1><p class="muted">Track stock levels and record incoming purchases.</p></div><button class="btn primary" id="addPurchase">＋ Receive stock</button></div>
+        <div class="stat-grid three"><article class="stat"><div class="stat-label">Total items</div><strong id="invCount">0</strong></article><article class="stat"><div class="stat-label">Low stock</div><strong id="lowCount">0</strong></article><article class="stat"><div class="stat-label">Stock value</div><strong id="stockValue">PKR 0</strong></article></div>
+        <article class="panel"><div class="table-scroll"><table><thead><tr><th>ITEM</th><th>SKU</th><th>ON HAND</th><th>MINIMUM</th><th>STATUS</th></tr></thead><tbody id="inventoryTable"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-people">
+        <div class="page-intro"><div><p class="eyebrow">RELATIONSHIPS</p><h1 id="peopleHeading">Customers</h1><p class="muted">Manage your customer and supplier directory.</p></div><button class="btn primary" id="addPerson">＋ Add record</button></div>
+        <article class="panel"><div class="toolbar"><select id="peopleType"><option value="customers">Customers</option><option value="suppliers">Suppliers</option></select><input id="peopleSearch" placeholder="Search records…"></div><div class="table-scroll"><table><thead><tr><th>NAME</th><th>PHONE</th><th>EMAIL</th><th>ADDRESS / NOTES</th><th></th></tr></thead><tbody id="peopleTable"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-sales">
+        <div class="page-intro"><div><p class="eyebrow">FINANCE</p><h1>Sales & invoices</h1><p class="muted">Review completed transactions and print receipts.</p></div><button class="btn outline" id="exportSales">↓ Export CSV</button></div>
+        <article class="panel"><div class="table-scroll"><table><thead><tr><th>REFERENCE</th><th>DATE</th><th>CUSTOMER</th><th>PAYMENT</th><th>TOTAL</th><th></th></tr></thead><tbody id="salesTable"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-expenses">
+        <div class="page-intro"><div><p class="eyebrow">FINANCE</p><h1>Expenses</h1><p class="muted">Record operating costs for a clearer profit estimate.</p></div><button class="btn primary" id="addExpense">＋ Add expense</button></div>
+        <article class="panel"><div class="table-scroll"><table><thead><tr><th>DESCRIPTION</th><th>CATEGORY</th><th>DATE</th><th>AMOUNT</th><th></th></tr></thead><tbody id="expensesTable"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-reports">
+        <div class="page-intro"><div><p class="eyebrow">INSIGHTS</p><h1>Reports & profit</h1><p class="muted">A simple summary based on saved sales, costs and expenses.</p></div></div>
+        <div class="stat-grid three"><article class="stat"><div class="stat-label">Revenue</div><strong id="reportRevenue">PKR 0</strong></article><article class="stat"><div class="stat-label">Recorded expenses</div><strong id="reportExpenses">PKR 0</strong></article><article class="stat"><div class="stat-label">Estimated net profit</div><strong id="reportProfit">PKR 0</strong></article></div>
+        <article class="panel"><div class="panel-head"><div><h3>Sales history</h3><p>All completed transactions</p></div></div><div class="table-scroll"><table><thead><tr><th>REFERENCE</th><th>DATE</th><th>ITEMS</th><th>PAYMENT</th><th>TOTAL</th></tr></thead><tbody id="reportTable"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-special">
+        <div class="page-intro"><div><p class="eyebrow" id="specialEyebrow">BUSINESS TOOLS</p><h1 id="specialHeading">Business tools</h1><p class="muted" id="specialDescription"></p></div><button class="btn primary" id="specialAdd">＋ Add record</button></div>
+        <div class="stat-grid three" id="specialStats"></div>
+        <article class="panel"><div class="table-scroll"><table><thead id="specialHead"></thead><tbody id="specialTable"></tbody></table></div></article>
+        <p class="notice" id="specialNotice"></p>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="page-intro"><div><p class="eyebrow">PREFERENCES</p><h1>Workspace settings</h1><p class="muted">Update business details and manage local data backups.</p></div></div>
+        <div class="settings-grid"><article class="panel"><h3>Business profile</h3><div class="form-stack"><label>Business name<input id="settingName"></label><label>Owner / manager<input id="settingOwner"></label><label>Currency<select id="settingCurrency"><option>PKR</option><option>USD</option><option>GBP</option><option>AED</option></select></label><button class="btn primary" id="saveSettings">Save settings</button></div></article>
+        <article class="panel"><h3>Local data</h3><p class="muted">Download a copy of your current local database or reset this demo workspace.</p><div class="form-stack"><button class="btn outline" id="backupBtn">Download JSON backup</button><button class="btn danger" id="resetBtn">Reset all workspace data</button></div><p class="notice">This local demo has no user accounts, role permissions, encryption, cloud sync or production-grade audit trail.</p></article></div>
+      </section>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<dialog id="recordDialog"><form method="dialog" id="recordForm"><div class="dialog-head"><div><p class="eyebrow">NEW RECORD</p><h2 id="dialogTitle">Add item</h2></div><button class="icon-btn" value="cancel" aria-label="Close">×</button></div><div id="dialogFields" class="form-stack"></div><div class="dialog-actions"><button class="btn outline" value="cancel">Cancel</button><button class="btn primary" id="dialogSave" value="default">Save record</button></div></form></dialog>
+<script src="app.js"></script>
+</body></html>

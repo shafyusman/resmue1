@@ -1,0 +1,55 @@
+{
+  "settings": {
+    "businessType": "restaurant",
+    "businessName": "PizzaWarz",
+    "ownerName": "Sharjeel",
+    "currency": "PKR"
+  },
+  "products": [
+    {
+      "id": "PRD-85A2E52B",
+      "createdAt": "2026-11-10T10:46:59.565Z",
+      "name": "pizza",
+      "sku": "SKU-1794307619559",
+      "category": "Food",
+      "price": 950,
+      "cost": 150,
+      "stock": 997,
+      "minStock": 0
+    }
+  ],
+  "customers": [],
+  "suppliers": [],
+  "sales": [
+    {
+      "id": "INV-34D36CEB",
+      "createdAt": "2026-11-10T10:47:29.195Z",
+      "customer": "Walk-in customer",
+      "items": [
+        {
+          "productId": "PRD-85A2E52B",
+          "qty": 3
+        }
+      ],
+      "subtotal": 2850,
+      "discount": 500,
+      "total": 2350,
+      "cost": 450,
+      "payment": "Card"
+    }
+  ],
+  "expenses": [],
+  "purchases": [],
+  "appointments": [],
+  "patients": [],
+  "tables": [],
+  "categories": [
+    "General",
+    "Food",
+    "Drinks",
+    "Medical",
+    "Grocery",
+    "Clothing",
+    "Electronics"
+  ]
+}

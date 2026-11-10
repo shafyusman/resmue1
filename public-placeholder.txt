@@ -1,0 +1,1 @@
+Static frontend files are in the project root.
